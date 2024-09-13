@@ -1,0 +1,101 @@
+/*import 'package:flutter/cupertino.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const CupertinoApp(
+      title: 'Cupertino App',
+      home: CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text('Cupertino App Bar'),
+        ),
+        child: Center(
+          child: Text('Hello World'),
+        ),
+      ),
+    );
+  }
+}
+import 'package:flutter/material.dart';
+
+void main() => runApp( MyApp());
+
+class MyApp extends StatefulWidget {
+   MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int contador=0;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.blueAccent,
+            title: Text(
+              'Mi primera App',
+              style: TextStyle(color: Colors.green),
+            ),
+          ),
+          body: Container(
+            color: Colors.grey,
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+              child: Text(
+                'Contador de clicks: $contador',
+                textAlign: TextAlign.center,
+
+              ),
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.ads_click_sharp),
+            onPressed: (){
+            contador++;
+            setState(() { });
+            print(contador);
+          }),
+          ),
+    );
+  }
+}
+*/
+
+import 'package:flutter/material.dart';
+import 'package:pmsn2024b/screens/home_screen.dart';
+import 'package:pmsn2024b/screens/login_screen.dart';
+import 'package:pmsn2024b/settings/global_values.dart';
+import 'package:pmsn2024b/settings/theme_settings.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: GlobalValues.banThemeDark,
+      builder: (context, value ,Widget) {
+        return MaterialApp(
+          title: 'Material App',
+          debugShowCheckedModeBanner: false,
+          home:LoginScreen(),
+          theme: value ? ThemeSettings.darkTheme() : ThemeSettings.lightTheme(),
+          routes: {
+            "/home": (context) => HomeScreen()
+          },
+        );
+      }
+    );
+  }
+}
