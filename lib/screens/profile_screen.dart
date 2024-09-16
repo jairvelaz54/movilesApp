@@ -71,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text('Jair Velazquez Reyes'),
               ),
-              // Correo
+              // Correo electronico
               ListTile(
                 leading: const Icon(Icons.email, color: Colors.orange),
                 title: const Text('Correo'),
