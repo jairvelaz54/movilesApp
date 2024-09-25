@@ -23,7 +23,7 @@ final _key= GlobalKey<ExpandableFabState>();
           backgroundColor: ColorsSettings.navColor,
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () { },
               icon: const Icon(Icons.access_alarm_outlined),
             ),
             GestureDetector(
@@ -47,7 +47,7 @@ final _key= GlobalKey<ExpandableFabState>();
             }
           },
         ),
-        endDrawer: Drawer(),
+        drawer: myDrawer(),
         bottomNavigationBar: ConvexAppBar(
           items: [
             TabItem(icon: Icons.home, title: 'Home'),
@@ -76,5 +76,28 @@ final _key= GlobalKey<ExpandableFabState>();
           ]
           ),
         );
+  }
+
+  Widget myDrawer(){
+    return  Drawer(
+      child: ListView(
+        children: [
+          const UserAccountsDrawerHeader(
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: NetworkImage("https://th.bing.com/th/id/R.d8f30f8c7f238ac844fd924dab66cc21?rik=%2bkLdjBuwc8kcXw&pid=ImgRaw&r=0"),
+            ),
+            accountName: Text('Jair Velazquez Reyes')
+          , accountEmail: Text('jair@gotchu.page'),
+          ),
+          ListTile(
+            onTap: () => Navigator.pushNamed(context,'/db'),
+            title: const Text('Movies List'),
+            subtitle: const Text('Database of movies '),
+            leading: const Icon(Icons.movie),
+            trailing: const Icon(Icons.chevron_right),
+          )
+        ],
+      ),
+    );
   }
 }

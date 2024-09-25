@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:pmsn2024b/models/moviedao.dart';
 
-class MovieViewItem extends StatelessWidget {
-  const MovieViewItem({super.key});
+class MovieViewItem extends StatefulWidget {
+  MovieViewItem({super.key, required this.moviesDAO});
+  MoviesDAO moviesDAO;
 
   @override
+  State<MovieViewItem> createState() => _MovieViewItemState();
+}
+
+class _MovieViewItemState extends State<MovieViewItem> {
+  @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Text(widget.moviesDAO.imgMovie!),
+    );
   }
 }
