@@ -8,16 +8,31 @@ class MovieView extends StatefulWidget {
 }
 
 class _MovieViewState extends State<MovieView> {
-  
+  TextEditingController conName = TextEditingController();
+  TextEditingController conOverview = TextEditingController();
+  TextEditingController conImgMovie = TextEditingController();
+  TextEditingController conRelease = TextEditingController();
   @override
   Widget build(BuildContext context) {
-  final txtNameMovie = TextFormField();
-  final TextOverview = TextFormField();
-  final txtImgMovie =TextFormField();
-  final 
+    final txtNameMovie = TextFormField(
+      controller: conName,
+    );
+    final txtOverview = TextFormField(
+      controller: conOverview,
+    );
+    final txtImgMovie = TextFormField(
+      controller: conImgMovie,
+    );
+    final txtRelease = TextFormField(
+      controller: conRelease,
+    );
     return ListView(
+      shrinkWrap: true,
       children: [
-
+        txtNameMovie,
+        txtOverview,
+        txtImgMovie,
+        txtRelease,
       ],
     );
   }

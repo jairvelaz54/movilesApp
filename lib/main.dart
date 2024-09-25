@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Material App',
           debugShowCheckedModeBanner: false,
-          home:LoginScreen(),
+          home:HomeScreen(),
           theme: value ? ThemeSettings.darkTheme() : ThemeSettings.lightTheme(),
           routes: {
             "/home": (context) => HomeScreen(),
