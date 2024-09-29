@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pmsn2024b/screens/onboarding_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -44,29 +45,31 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-    final btnLogin =
-        Positioned(
-          top: MediaQuery.of(context).size.height * 0.6,
-          width: MediaQuery.of(context).size.width,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue[200]
-            ),
-            onPressed: (){
+    final btnLogin = Positioned(
+        top: MediaQuery.of(context).size.height * 0.6,
+        width: MediaQuery.of(context).size.width,
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue[200]),
+            onPressed: () {
               setState(() {});
               isloading = true;
-              Future.delayed(const Duration(milliseconds: 4000)
-              ).then((value)=>{
-                isloading = false,
-                setState(() {}),
-                Navigator.pushNamed(context,  "/home")
-              });
+              Future.delayed(const Duration(milliseconds: 4000))
+                  .then((value) => {
+                        isloading = false,
+                        setState(() {}),
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OnboardingScreen()),
+                        )
+                      });
             },
-           child: const Text('Validar usuario')
-           ));
-    final gifLoading=Positioned(
-      top:80,
-      child: Image.asset('assets/loading.gif'), height: 100,);
+            child: const Text('Validar usuario')));
+    final gifLoading = Positioned(
+      top: 80,
+      child: Image.asset('assets/loading.gif'),
+      height: 100,
+    );
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,

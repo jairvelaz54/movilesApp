@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pmsn2024b/database/movies_database.dart';
 import 'package:pmsn2024b/models/moviedao.dart';
+import 'package:pmsn2024b/settings/global_values.dart';
 import 'package:pmsn2024b/views/movie_view.dart';
 import 'package:pmsn2024b/views/movie_view_item.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
@@ -13,10 +14,11 @@ class MoviesScreen extends StatefulWidget {
 }
 
 class _MoviesScreenState extends State<MoviesScreen> {
+
   late MoviesDatabase moviesDB;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     moviesDB = MoviesDatabase();
   }
@@ -24,38 +26,52 @@ class _MoviesScreenState extends State<MoviesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Movies List'), actions: [
-        IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
+      appBar: AppBar(
+        title: const Text('Movies List'),
+        actions: [
+          IconButton(
+            onPressed: (){
+
               WoltModalSheet.show(
-                  context: context,
-                  pageListBuilder: (context) => 
-                      [WoltModalSheetPage(child: const  MovieView())]);
-            })
-      ]),
-      body: FutureBuilder(
-          future: moviesDB.SELECT(),
-          builder: (context, AsyncSnapshot<List<MoviesDAO>> snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return MovieViewItem(moviesDAO: snapshot.data![index]);
-                },
+                context: context, 
+                pageListBuilder: (context) => [
+                  WoltModalSheetPage(
+                    child: MovieView()
+                  )
+                ]
               );
-            } else {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text('Something was wrong!'),
+
+            }, 
+            icon: const Icon(Icons.add) 
+          )
+        ],
+      ),
+      body: ValueListenableBuilder(
+        valueListenable: GlobalValues.banUpdListMovie,
+        builder: (context, value, widget) {
+          return FutureBuilder(
+            future: moviesDB.SELECT(),
+            builder: (context, AsyncSnapshot<List<MoviesDAO>?> snapshot) {
+              if(snapshot.hasData){
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return MovieViewItem(
+                      moviesDAO: snapshot.data![index],
+                    );
+                  },
                 );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
+              }else{
+                if(snapshot.hasError){
+                  return Center(child: Text(snapshot.error.toString()),);
+                }else{
+                  return Center(child: CircularProgressIndicator(),);
+                }
               }
             }
-          }),
+          );
+        }
+      ),
     );
-  }
+  }  
 }

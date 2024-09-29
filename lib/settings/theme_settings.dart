@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 
 class ThemeSettings {
-  static ThemeData lightTheme(){
-    final theme= ThemeData.light();
-    return theme.copyWith(
+  static ThemeData lightTheme() {
+    return ThemeData(
       scaffoldBackgroundColor: Colors.white,
-      
+      primaryColor: Colors.blue,
+      brightness: Brightness.light,
     );
-
-  }
-  static ThemeData darkTheme(){
-    final theme= ThemeData.dark();
-    return theme.copyWith();
   }
 
-  static ThemeData warmTheme(){
-    final theme = ThemeData.light();
-    return theme.copyWith();
+  static ThemeData darkTheme() {
+    return ThemeData(
+      scaffoldBackgroundColor: Colors.black,
+      primaryColor: Colors.grey,
+      brightness: Brightness.dark,
+    );
+  }
+
+  static ThemeData customTheme() {
+    return ThemeData(
+      scaffoldBackgroundColor: Colors.orange[100],
+      primaryColor: Colors.orange,
+      brightness: Brightness.light,
+    );
   }
 }
