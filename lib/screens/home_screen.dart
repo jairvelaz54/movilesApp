@@ -2,9 +2,11 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:pmsn2024b/screens/login_screen.dart';
+import 'package:pmsn2024b/screens/logout_screen.dart';
 import 'package:pmsn2024b/screens/profile_screen.dart';
 import 'package:pmsn2024b/settings/colors_settings.dart';
 import 'package:pmsn2024b/settings/global_values.dart';
+import 'package:pmsn2024b/settings/theme_settings.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
             case 1:
               return ProfileScreen();
             case 2:
-              return ProfileScreen();
+              return LogoutScreen();
             default:
               return Container();
           }
@@ -64,13 +66,15 @@ class _HomeScreenState extends State<HomeScreen> {
         FloatingActionButton.small(
             heroTag: "btn1",
             onPressed: () {
-              GlobalValues.banThemeDark.value = false;
+              GlobalValues.themeMode.value = 0;
+              ThemeSettings.lightTheme(); // Aplica el tema claro
             },
             child: const Icon(Icons.light_mode)),
         FloatingActionButton.small(
             heroTag: "btn2",
             onPressed: () {
-              GlobalValues.banThemeDark.value = true;
+              GlobalValues.themeMode.value = 1;
+              ThemeSettings.darkTheme(); // Aplica el tema oscuro
             },
             child: const Icon(Icons.dark_mode)),
       ]),

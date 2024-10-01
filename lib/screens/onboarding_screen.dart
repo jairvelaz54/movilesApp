@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pmsn2024b/settings/theme_settings.dart';
 import 'package:pmsn2024b/settings/global_values.dart';
 
@@ -10,14 +11,12 @@ class OnboardingScreen extends StatelessWidget {
     return IntroductionScreen(
       pages: [
         PageViewModel(
-          title: "Bienvenido a la App",
-          body:
-              "Aquí te explicamos cómo funciona la aplicación de manera general.",
+          title: "Bienvenido a la App Movies",
+          body: "Esta app esta diseñaba para poder registrar y poder ver sus peliculas favoritas",
           image: Center(
-            child: Image.asset('assets/logoKaito.png', height: 175.0),
+            child: Lottie.asset('assets/lottie/welcome_animation.json', height: 300.0),
           ),
         ),
-
         PageViewModel(
           title: "Configura el tema",
           bodyWidget: Column(
@@ -53,15 +52,12 @@ class OnboardingScreen extends StatelessWidget {
               ),
             ],
           ),
-          image: Icon(Icons.palette, size: 175, color: Colors.blueAccent),
+          image: Lottie.asset('assets/lottie/theme_animation.json', height: 175.0),
         ),
-
-        // Pantalla adicional
         PageViewModel(
           title: "Permisos de la App",
-          body:
-              "Para ofrecerte la mejor experiencia, la app necesita acceso a la cámara y a tu ubicación. Estos permisos son necesarios para funciones clave como tomar fotos y personalizar servicios según tu ubicación.",
-          image: Icon(Icons.lock_open, size: 175, color: Colors.green),
+          body: "Para ofrecerte la mejor experiencia, la app necesita acceso a la cámara y a tu ubicación.",
+          image: Lottie.asset('assets/lottie/permissions_animation.json', height: 200.0),
           footer: ElevatedButton(
             onPressed: () async {
               // Solicitar permisos
@@ -87,8 +83,7 @@ class OnboardingScreen extends StatelessWidget {
         ),
       ],
       onDone: () {
-        Navigator.of(context)
-            .pushReplacementNamed('/home'); // Navega a la pantalla principal
+        Navigator.of(context).pushReplacementNamed('/home');
       },
       onSkip: () {
         Navigator.of(context).pushReplacementNamed('/home');
@@ -96,8 +91,7 @@ class OnboardingScreen extends StatelessWidget {
       showSkipButton: true,
       skip: const Text("Saltar"),
       next: const Icon(Icons.arrow_forward),
-      done:
-          const Text("Empezar", style: TextStyle(fontWeight: FontWeight.w600)),
+      done: const Text("Empezar", style: TextStyle(fontWeight: FontWeight.w600)),
       dotsDecorator: DotsDecorator(
         size: const Size.square(10.0),
         activeSize: const Size(22.0, 10.0),
