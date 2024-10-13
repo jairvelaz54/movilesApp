@@ -8,7 +8,7 @@ class PopularMoviedaoDart {
   String overview;
   double popularity;
   String posterPath;
-  DateTime releaseDate;
+  String releaseDate;
   String title;
   double voteAverage;
   int voteCount;
@@ -36,7 +36,7 @@ class PopularMoviedaoDart {
       overview: popular['overview'],
       popularity: popular['popularity'],
       posterPath: popular['poster_path'],
-      releaseDate: DateTime.parse(popular['release_date']),
+      releaseDate: popular['release_date'],
       title: popular['title'],
       voteAverage: popular['vote_average'],
       voteCount: popular['vote_count']

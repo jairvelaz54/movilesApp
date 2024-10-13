@@ -71,13 +71,17 @@ class _MyAppState extends State<MyApp> {
 */
 
 import 'package:flutter/material.dart';
+import 'package:pmsn2024b/provider/test_provider.dart';
+import 'package:pmsn2024b/screens/detail_popular_screen.dart';
 import 'package:pmsn2024b/screens/home_screen.dart';
 import 'package:pmsn2024b/screens/login_screen.dart';
 import 'package:pmsn2024b/screens/movies_screen.dart';
+import 'package:pmsn2024b/screens/popular_screen.dart';
 import 'package:pmsn2024b/screens/theme_screen.dart';
 import 'package:pmsn2024b/settings/global_values.dart';
 import 'package:pmsn2024b/settings/theme_preferences.dart';
 import 'package:pmsn2024b/settings/theme_settings.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -97,16 +101,21 @@ class MyApp extends StatelessWidget {
     return ValueListenableBuilder(
         valueListenable: GlobalValues.themeMode,
         builder: (context, themeMode, _) {
-          return MaterialApp(
-            title: 'Material App',
-            debugShowCheckedModeBanner: false,
-            home: LoginScreen(),
-            theme: getThemeByMode(themeMode),
-            routes: {
-              "/home": (context) => HomeScreen(),
-              "/db": (context) => MoviesScreen(),
-              "/theme": (context) => ThemeSettingsScreen(),
-            },
+          return ChangeNotifierProvider(
+            create: (context) => TestProvider(),
+            child: MaterialApp(
+              title: 'Material App',
+              debugShowCheckedModeBanner: false,
+              home: LoginScreen(),
+              theme: getThemeByMode(themeMode),
+              routes: {
+                "/home": (context) => HomeScreen(),
+                "/db": (context) => MoviesScreen(),
+                "/theme": (context) => ThemeSettingsScreen(),
+                "/popularMovies":(context) =>PopularScreen(),
+                "/detail": (context) => DetailPopularScreen()
+              },
+            ),
           );
         });
   }

@@ -7,6 +7,9 @@ import 'package:pmsn2024b/screens/profile_screen.dart';
 import 'package:pmsn2024b/settings/colors_settings.dart';
 import 'package:pmsn2024b/settings/global_values.dart';
 import 'package:pmsn2024b/settings/theme_settings.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/test_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final testProvider = Provider.of<TestProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorsSettings.navColor,
@@ -50,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
       ),
-      drawer: myDrawer(),
+      drawer: myDrawer(testProvider),
       bottomNavigationBar: ConvexAppBar(
         items: [
           TabItem(icon: Icons.home, title: 'Home'),
@@ -81,16 +85,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget myDrawer() {
+  Widget myDrawer(TestProvider testProvider) {
     return Drawer(
       child: ListView(
         children: [
-          const UserAccountsDrawerHeader(
+           UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage(
                   "https://th.bing.com/th/id/R.d8f30f8c7f238ac844fd924dab66cc21?rik=%2bkLdjBuwc8kcXw&pid=ImgRaw&r=0"),
             ),
-            accountName: Text('Jair Velazquez Reyes'),
+            accountName: Text(testProvider.name),
             accountEmail: Text('jair@gotchu.page'),
           ),
           ListTile(
@@ -105,6 +109,13 @@ class _HomeScreenState extends State<HomeScreen> {
             leading: const Icon(Icons.color_lens),
             onTap: () {
               Navigator.pushNamed(context, '/theme');
+            },
+          ),
+          ListTile(
+            title: const Text('Popular Movies'),
+            leading: const Icon(Icons.movie_filter_sharp),
+            onTap: () {
+              Navigator.pushNamed(context, '/popularMovies');
             },
           ),
         ],
