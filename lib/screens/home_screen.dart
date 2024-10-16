@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Drawer(
       child: ListView(
         children: [
-           UserAccountsDrawerHeader(
+          UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage(
                   "https://th.bing.com/th/id/R.d8f30f8c7f238ac844fd924dab66cc21?rik=%2bkLdjBuwc8kcXw&pid=ImgRaw&r=0"),
@@ -118,6 +118,18 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.pushNamed(context, '/popularMovies');
             },
           ),
+          ListTile(
+              title: const Text('Tarea 4'),
+              leading: const Icon(Icons.dashboard_customize),
+              onTap: () {
+                Navigator.pushNamed(context, "/calendario");
+              }),
+          ListTile(
+              title: const Text('Tarea 4'),
+              leading: const Icon(Icons.dashboard_customize),
+              onTap: () {
+                Navigator.pushNamed(context, "/registrar");
+              }),
         ],
       ),
     );

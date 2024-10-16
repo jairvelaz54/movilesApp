@@ -72,10 +72,12 @@ class _MyAppState extends State<MyApp> {
 
 import 'package:flutter/material.dart';
 import 'package:pmsn2024b/provider/test_provider.dart';
+import 'package:pmsn2024b/screens/CalendarPage_screen.dart';
 import 'package:pmsn2024b/screens/detail_popular_screen.dart';
 import 'package:pmsn2024b/screens/home_screen.dart';
 import 'package:pmsn2024b/screens/login_screen.dart';
 import 'package:pmsn2024b/screens/movies_screen.dart';
+import 'package:pmsn2024b/screens/newSalePage_screen.dart';
 import 'package:pmsn2024b/screens/popular_screen.dart';
 import 'package:pmsn2024b/screens/theme_screen.dart';
 import 'package:pmsn2024b/settings/global_values.dart';
@@ -96,8 +98,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    
     return ValueListenableBuilder(
         valueListenable: GlobalValues.themeMode,
         builder: (context, themeMode, _) {
@@ -112,8 +112,11 @@ class MyApp extends StatelessWidget {
                 "/home": (context) => HomeScreen(),
                 "/db": (context) => MoviesScreen(),
                 "/theme": (context) => ThemeSettingsScreen(),
-                "/popularMovies":(context) =>PopularScreen(),
-                "/detail": (context) => DetailPopularScreen()
+                "/popularMovies": (context) => PopularScreen(),
+                "/detail": (context) => DetailPopularScreen(),
+                "/calendario":(context) => CalendarPage(),
+                "/registrar":(context) =>NewSalePage()
+
               },
             ),
           );
