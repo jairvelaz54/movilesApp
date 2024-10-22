@@ -70,20 +70,60 @@ class DBHelper {
     await insertInitialData(db);
   }
 
-  Future<void> insertInitialData(Database db) async {
-    // Insertar categorías
-    await db.insert('categorias', {'nombre': 'Electrónica'});
-    await db.insert('categorias', {'nombre': 'Ropa'});
-    await db.insert('categorias', {'nombre': 'Alimentos'});
 
-    // Insertar bienes
-    await db.insert('bienes', {'nombre': 'Televisor', 'categoriaId': 1, 'precio': 500.0});
-    await db.insert('bienes', {'nombre': 'Smartphone', 'categoriaId': 1, 'precio': 300.0});
-    await db.insert('bienes', {'nombre': 'Camiseta', 'categoriaId': 2, 'precio': 20.0});
-    await db.insert('bienes', {'nombre': 'Pantalón', 'categoriaId': 2, 'precio': 40.0});
-    await db.insert('bienes', {'nombre': 'Manzana', 'categoriaId': 3, 'precio': 1.0});
-    await db.insert('bienes', {'nombre': 'Pan', 'categoriaId': 3, 'precio': 2.0});
-  }
+
+
+  
+
+  Future<void> insertInitialData(Database db) async {
+  // Insertar categorías
+  await db.insert('categorias', {'nombre': 'Electrónica'});
+  await db.insert('categorias', {'nombre': 'Ropa'});
+  await db.insert('categorias', {'nombre': 'Alimentos'});
+
+  // Insertar bienes
+  await db.insert('bienes', {'nombre': 'Televisor', 'categoriaId': 1, 'precio': 500.0});
+  await db.insert('bienes', {'nombre': 'Smartphone', 'categoriaId': 1, 'precio': 300.0});
+  await db.insert('bienes', {'nombre': 'Camiseta', 'categoriaId': 2, 'precio': 20.0});
+  await db.insert('bienes', {'nombre': 'Pantalón', 'categoriaId': 2, 'precio': 40.0});
+  await db.insert('bienes', {'nombre': 'Manzana', 'categoriaId': 3, 'precio': 1.0});
+  await db.insert('bienes', {'nombre': 'Pan', 'categoriaId': 3, 'precio': 2.0});
+
+  // Insertar ventas con diferentes estatus
+  await db.insert('ventasServicios', {
+    'nombreCliente': 'Cliente A',
+    'fecha': DateTime.now().toIso8601String(),
+    'estatus': 'Por cumplir',
+    'categoriaId': 1,
+    'total': 500.0,
+    'recordatorioFecha': DateTime.now().subtract(Duration(days: 2)).toIso8601String(),
+  });
+
+  await db.insert('ventasServicios', {
+    'nombreCliente': 'Cliente B',
+    'fecha': DateTime.now().subtract(Duration(days: 1)).toIso8601String(),
+    'estatus': 'Cancelado',
+    'categoriaId': 2,
+    'total': 40.0,
+    'recordatorioFecha': DateTime.now().subtract(Duration(days: 3)).toIso8601String(),
+  });
+
+  await db.insert('ventasServicios', {
+    'nombreCliente': 'Cliente C',
+    'fecha': DateTime.now().subtract(Duration(days: 2)).toIso8601String(),
+    'estatus': 'Completado',
+    'categoriaId': 3,
+    'total': 10.0,
+    'recordatorioFecha': DateTime.now().subtract(Duration(days: 4)).toIso8601String(),
+  });
+}
+
+// Método en DBHelper para obtener todos los bienes
+Future<List<Map<String, dynamic>>> getAllBienes() async {
+  final db = await database;
+  return await db.query('bienes');
+}
+
 
   Future<void> addNewVenta(String nombreCliente, DateTime fecha, String estatus,
       int categoriaId, double total) async {
