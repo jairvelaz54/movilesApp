@@ -12,6 +12,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Map<DateTime, List<Map<String, String>>> _events = {};
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
+  int _totalVentas = 0;
 
   @override
   void initState() {
@@ -27,6 +28,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
     setState(() {
       _events.clear();
+      _totalVentas = ventas.length; // Actualizamos el contador total de ventas
       for (var venta in ventas) {
         DateTime fecha = DateTime.parse(venta['fecha']).toLocal();
         final normalizedDate = DateTime(fecha.year, fecha.month, fecha.day);
@@ -77,19 +79,45 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calendario de Ventas/Servicios'),
-        actions: [
+  title: Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      Expanded(
+        child: Text('Calendario de Ventas/Servicios'),
+      ),
+      Row(
+        children: [
           IconButton(
-            icon: Icon(Icons.history),
+            icon: Icon(Icons.shopping_cart),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HistoryPage()),
-              );
+              // Lógica para mostrar todas las ventas
+              _showAllVentas(context);
             },
+          ),
+          SizedBox(width: 5),
+          Text(
+            '$_totalVentas',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),
+    ],
+  ),
+  actions: [
+    IconButton(
+      icon: Icon(Icons.history),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HistoryPage()),
+        );
+      },
+    ),
+  ],
+),
+
+
+
       body: Column(
         children: [
           TableCalendar<Map<String, String>>(
@@ -208,6 +236,70 @@ class _CalendarPageState extends State<CalendarPage> {
       },
     );
   }
+
+  void _showAllVentas(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setModalState) {
+          return Container(
+            padding: EdgeInsets.all(16.0),
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Todas las Ventas',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 16),
+                _totalVentas > 0
+                    ? Expanded(
+                        child: ListView.builder(
+                          itemCount: _totalVentas,
+                          itemBuilder: (context, index) {
+                            final event = _events.values
+                                .expand((element) => element)
+                                .toList()[index];
+                            return Container(
+                              color: _getColorFromEstatus(event['estatus'] ?? '', DateTime.parse(event['fecha'] ?? DateTime.now().toString())),
+                              child: ListTile(
+                                title: Text(event['nombreCliente'] ?? 'Sin nombre'),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Estatus: ${event['estatus'] ?? 'Sin estatus'}'),
+                                    Text('Categoría: ${event['categoria'] ?? 'Sin categoría'}'),
+                                  ],
+                                ),
+                                leading: Icon(_getIconFromEstatus(event['estatus'] ?? '')),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Center(
+                        child: Text(
+                          'No hay ventas disponibles.',
+                          style: TextStyle(fontSize: 18, color: Colors.black54),
+                        ),
+                      ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('Cerrar'),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
+}
+
+
 
   IconData _getIconFromEstatus(String estatus) {
     switch (estatus) {
