@@ -70,13 +70,16 @@ class _MyAppState extends State<MyApp> {
 }
 */
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pmsn2024b/firebase_options.dart';
 import 'package:pmsn2024b/provider/test_provider.dart';
 import 'package:pmsn2024b/screens/CalendarPage_screen.dart';
 import 'package:pmsn2024b/screens/detail_popular_screen.dart';
 import 'package:pmsn2024b/screens/home_screen.dart';
 import 'package:pmsn2024b/screens/login_screen.dart';
 import 'package:pmsn2024b/screens/movies_screen.dart';
+import 'package:pmsn2024b/screens/movies_screen_firebase.dart';
 import 'package:pmsn2024b/screens/newSalePage_screen.dart';
 import 'package:pmsn2024b/screens/popular_screen.dart';
 import 'package:pmsn2024b/screens/theme_screen.dart';
@@ -85,11 +88,12 @@ import 'package:pmsn2024b/settings/theme_preferences.dart';
 import 'package:pmsn2024b/settings/theme_settings.dart';
 import 'package:provider/provider.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   int savedTheme = await ThemePreference().getTheme();
   GlobalValues.themeMode.value = savedTheme;
-
   runApp(const MyApp());
 }
 
@@ -115,7 +119,8 @@ class MyApp extends StatelessWidget {
                 "/popularMovies": (context) => PopularScreen(),
                 "/detail": (context) => DetailPopularScreen(),
                 "/calendario":(context) => CalendarPage(),
-                "/registrar":(context) =>NewSalePage()
+                "/registrar":(context) =>NewSalePage(),
+                "/firebase": (context) => MoviesScreenFirebase()
 
               },
             ),

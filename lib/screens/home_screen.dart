@@ -130,6 +130,12 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.pushNamed(context, "/registrar");
               }),
+              ListTile(
+              title: const Text('Firebase'),
+              leading: const Icon(Icons.dashboard_outlined),
+              onTap: () {
+                Navigator.pushNamed(context, "/firebase");
+              }),
         ],
       ),
     );

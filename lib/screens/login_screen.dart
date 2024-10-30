@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pmsn2024b/screens/onboarding_screen.dart';
+import 'package:pmsn2024b/screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -99,6 +100,33 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Text('Validar usuario'),
                         ),
+
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromARGB(255, 135, 255, 129),
+                            minimumSize: Size(double.infinity, 50),
+                          ),
+                          onPressed: () {
+                            setState(() {});
+                            isloading = true;
+                            Future.delayed(const Duration(milliseconds: 4000))
+                                .then((value) => {
+                                      isloading = false,
+                                      setState(() {}),
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              RegisterScreen(),
+                                        ),
+                                      ),
+                                    });
+                          },
+                          child: Text('Registrar'),
+                        ),
+
+
                       ],
                     ),
                   ),

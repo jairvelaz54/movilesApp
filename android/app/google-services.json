@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "863128092138",
+    "project_id": "moviles-dc5c1",
+    "storage_bucket": "moviles-dc5c1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863128092138:android:20f4a4b5b0c08259d74693",
+        "android_client_info": {
+          "package_name": "com.example.pmsn2024b"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy0Z8SGwD-MQ2tjdY-u-kgESXAfPg-4Mk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
