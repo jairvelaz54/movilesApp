@@ -1,7 +1,6 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:pmsn2024b/screens/login_screen.dart';
 import 'package:pmsn2024b/screens/logout_screen.dart';
 import 'package:pmsn2024b/screens/profile_screen.dart';
 import 'package:pmsn2024b/settings/colors_settings.dart';

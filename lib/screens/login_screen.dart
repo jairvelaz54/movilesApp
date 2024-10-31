@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              OnboardingScreen(),
+                                              const OnboardingScreen(),
                                         ),
                                       ),
                                     });

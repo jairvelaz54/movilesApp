@@ -52,8 +52,8 @@ dependencies:
   provider: ^6.1.2
   table_calendar: ^3.0.9
   badges: ^3.1.2
-
-
+  flutter_local_notifications: ^11.0.1
+  timezone: ^0.9.4
 
   
 dev_dependencies:

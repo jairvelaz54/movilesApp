@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pmsn2024b/database/servicio_database.dart';
 import 'package:pmsn2024b/screens/historyPage_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -15,6 +17,9 @@ class _CalendarPageState extends State<CalendarPage> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   int _totalVentas = 0;
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
@@ -40,14 +45,37 @@ class _CalendarPageState extends State<CalendarPage> {
         var ventaCopia = Map<String, dynamic>.from(venta);
 
         // Si la fecha ya ha pasado y el estatus no es "Cancelado", lo actualizamos en la base de datos
-        if (normalizedDate.isBefore(DateTime(now.year, now.month, now.day)) && ventaCopia['estatus'] != 'Cancelado') {
+        if (normalizedDate.isBefore(DateTime(now.year, now.month, now.day)) &&
+            ventaCopia['estatus'] != 'Cancelado') {
           ventaCopia['estatus'] = 'Cancelado';
           dbHelper.updateEstatusVenta(ventaCopia['id'], 'Cancelado');
+        } else {
+          // Programar notificación si la fecha es futura y el estatus es "Por cumplir"
+          if (ventaCopia['estatus'] == 'Por cumplir') {
+            _scheduleNotification(
+              normalizedDate,
+              'Recordatorio de Venta',
+              'Tienes una venta programada con ${ventaCopia['nombreCliente']} mañana.',
+            );
+
+            // Programar notificación inmediata si la venta es en 1-2 días
+            if (normalizedDate.isAfter(now) && normalizedDate.isBefore(now.add(const Duration(days: 3)))) {
+              _scheduleImmediateNotification(
+                'Venta Próxima',
+                'Tienes una venta programada con ${ventaCopia['nombreCliente']} en los próximos días.',
+              );
+            }
+          }
         }
 
         // Obtener la categoría y producto relacionados
-        final categoria = categorias.firstWhere((cat) => cat['id'] == ventaCopia['categoriaId'], orElse: () => {'nombre': 'Desconocida'});
-        final bien = bienes.firstWhere((bien) => bien['id'] == ventaCopia['bienId'], orElse: () => {'nombre': 'Producto no especificado', 'cantidad': 0});
+        final categoria = categorias.firstWhere(
+            (cat) => cat['id'] == ventaCopia['categoriaId'],
+            orElse: () => {'nombre': 'Desconocida'});
+        final bien = bienes.firstWhere(
+            (bien) => bien['id'] == ventaCopia['bienId'],
+            orElse: () =>
+                {'nombre': 'Producto no especificado', 'cantidad': 0});
 
         _events[normalizedDate] = _events[normalizedDate] ?? [];
         _events[normalizedDate]!.add({
@@ -60,6 +88,73 @@ class _CalendarPageState extends State<CalendarPage> {
         });
       }
     });
+  }
+
+  Future<void> _scheduleNotification(DateTime date, String title, String body) async {
+    final notificationTime = date.subtract(const Duration(days: 1)); // Un día antes
+    
+    if (notificationTime.isAfter(DateTime.now())) { // Solo programar si es una fecha futura
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        title,
+        body,
+        tz.TZDateTime.from(notificationTime, tz.local),
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'sales_reminder_channel',  // Asegúrate de que el ID sea consistente
+            'Sales Reminders',
+            channelDescription: 'Canal para recordatorios de ventas programadas',
+            importance: Importance.high,
+            priority: Priority.high,
+          ),
+        ),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    }
+  }
+
+  Future<void> _scheduleImmediateNotification(String title, String body) async {
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      0,
+      title,
+      body,
+      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)), // Notificación en 10 segundos
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'sales_reminder_channel',  // Asegúrate de que el ID sea consistente
+          'Sales Reminders',
+          channelDescription: 'Canal para recordatorios de ventas programadas',
+          importance: Importance.high,
+          priority: Priority.high,
+        ),
+      ),
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.time,
+    );
+  }
+
+  Future<void> _testImmediateNotification() async {
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      0,
+      'Prueba de Notificación',
+      'Esta es una notificación de prueba.',
+      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)), // Notificación de prueba en 10 segundos
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'sales_reminder_channel',  // Asegúrate de que el ID sea consistente
+          'Sales Reminders',
+          channelDescription: 'Canal para recordatorios de ventas programadas',
+          importance: Importance.high,
+          priority: Priority.high,
+        ),
+      ),
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.time,
+    );
   }
 
   Color _getColorFromEstatus(String estatus, DateTime eventDate) {
@@ -81,47 +176,47 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-  title: Row(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-      const Expanded(
-        child: Text('Calendario de Ventas/Servicios'),
-      ),
-      Row(
-        children: [
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const Expanded(
+              child: Text('Calendario de Ventas/Servicios'),
+            ),
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart),
+                  onPressed: () {
+                    _showAllVentas(context);
+                  },
+                ),
+                const SizedBox(width: 5),
+                Text(
+                  '$_totalVentas',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ],
+        ),
+        actions: [
           IconButton(
-            icon: const Icon(Icons.shopping_cart),
+            icon: const Icon(Icons.history),
             onPressed: () {
-              // Lógica para mostrar todas las ventas
-              _showAllVentas(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HistoryPage()),
+              );
             },
-          ),
-          const SizedBox(width: 5),
-          Text(
-            '$_totalVentas',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),
-    ],
-  ),
-  actions: [
-    IconButton(
-      icon: const Icon(Icons.history),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HistoryPage()),
-        );
-      },
-    ),
-  ],
-),
-
-
-
       body: Column(
         children: [
+          ElevatedButton(
+            onPressed: _testImmediateNotification,
+            child: const Text('Probar Notificación'),
+          ),
           TableCalendar<Map<String, String>>(
             firstDay: DateTime.utc(2020, 1, 1),
             lastDay: DateTime.utc(2025, 12, 31),
@@ -240,68 +335,64 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   void _showAllVentas(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    builder: (context) {
-      return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setModalState) {
-          return Container(
-            padding: const EdgeInsets.all(16.0),
-            height: MediaQuery.of(context).size.height * 0.5,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Todas las Ventas',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                _totalVentas > 0
-                    ? Expanded(
-                        child: ListView.builder(
-                          itemCount: _totalVentas,
-                          itemBuilder: (context, index) {
-                            final event = _events.values
-                                .expand((element) => element)
-                                .toList()[index];
-                            return Container(
-                              color: _getColorFromEstatus(event['estatus'] ?? '', DateTime.parse(event['fecha'] ?? DateTime.now().toString())),
-                              child: ListTile(
-                                title: Text(event['nombreCliente'] ?? 'Sin nombre'),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Estatus: ${event['estatus'] ?? 'Sin estatus'}'),
-                                    Text('Categoría: ${event['categoria'] ?? 'Sin categoría'}'),
-                                  ],
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState) {
+            return Container(
+              padding: const EdgeInsets.all(16.0),
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Todas las Ventas',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  _totalVentas > 0
+                      ? Expanded(
+                          child: ListView.builder(
+                            itemCount: _totalVentas,
+                            itemBuilder: (context, index) {
+                              final event = _events.values.expand((element) => element).toList()[index];
+                              return Container(
+                                color: _getColorFromEstatus(event['estatus'] ?? '', DateTime.parse(event['fecha'] ?? DateTime.now().toString())),
+                                child: ListTile(
+                                  title: Text(event['nombreCliente'] ?? 'Sin nombre'),
+                                  subtitle: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Estatus: ${event['estatus'] ?? 'Sin estatus'}'),
+                                      Text('Categoría: ${event['categoria'] ?? 'Sin categoría'}'),
+                                    ],
+                                  ),
+                                  leading: Icon(_getIconFromEstatus(event['estatus'] ?? '')),
                                 ),
-                                leading: Icon(_getIconFromEstatus(event['estatus'] ?? '')),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
+                        )
+                      : const Center(
+                          child: Text(
+                            'No hay ventas disponibles.',
+                            style: TextStyle(fontSize: 18, color: Colors.black54),
+                          ),
                         ),
-                      )
-                    : const Center(
-                        child: Text(
-                          'No hay ventas disponibles.',
-                          style: TextStyle(fontSize: 18, color: Colors.black54),
-                        ),
-                      ),
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Cerrar'),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    },
-  );
-}
-
-
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Cerrar'),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 
   IconData _getIconFromEstatus(String estatus) {
     switch (estatus) {

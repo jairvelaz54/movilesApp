@@ -12,7 +12,7 @@ class _NewSalePageState extends State<NewSalePage> {
   final _formKey = GlobalKey<FormState>();
   String? _nombreCliente;
   DateTime? _fecha;
-  final String? _estatus = 'Por cumplir';
+  final String _estatus = 'Por cumplir';
   int? _categoriaSeleccionada;
   int _cantidad = 1;
   List<Map<String, dynamic>> _categorias = [];
