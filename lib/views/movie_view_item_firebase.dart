@@ -67,12 +67,9 @@ class _MovieViewItemFirebaseState extends State<MovieViewItemFirebase> {
                   icon: Icon(Icons.edit)),
               IconButton(
                   onPressed: () {
-                    moviesDatabase!
-                        .DELETE('tblmovies', widget.moviesDAO.idMovie!)
+                    moviesDatabase!.eliminar('tblmovies')
                         .then((value) {
-                      if (value > 0) {
-                        GlobalValues.banUpdListMovie.value =
-                            !GlobalValues.banUpdListMovie.value;
+                      if (true) {
                         return QuickAlert.show(
                           context: context,
                           type: QuickAlertType.success,
