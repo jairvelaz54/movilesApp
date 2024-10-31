@@ -1,6 +1,5 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pmsn2024b/database/servicio_database.dart';
 import 'package:pmsn2024b/provider/test_provider.dart';
 import 'package:pmsn2024b/screens/CalendarPage_screen.dart';
@@ -19,13 +18,6 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Inicializa `android_alarm_manager_plus`
-  await AndroidAlarmManager.initialize();
-
-  // Configura `flutter_local_notifications`
-  const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
-  final InitializationSettings initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
 
 
 
@@ -50,14 +42,14 @@ class MyApp extends StatelessWidget {
             child: MaterialApp(
               title: 'Material App',
               debugShowCheckedModeBanner: false,
-              home: LoginScreen(),
+              home: const LoginScreen(),
               theme: getThemeByMode(themeMode),
               routes: {
-                "/home": (context) => HomeScreen(),
-                "/db": (context) => MoviesScreen(),
-                "/theme": (context) => ThemeSettingsScreen(),
-                "/popularMovies": (context) => PopularScreen(),
-                "/detail": (context) => DetailPopularScreen(),
+                "/home": (context) => const HomeScreen(),
+                "/db": (context) => const MoviesScreen(),
+                "/theme": (context) => const ThemeSettingsScreen(),
+                "/popularMovies": (context) => const PopularScreen(),
+                "/detail": (context) => const DetailPopularScreen(),
                 "/calendario": (context) => CalendarPage(),
                 "/registrar": (context) => NewSalePage(),
               },

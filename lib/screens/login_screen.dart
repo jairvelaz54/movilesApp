@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         : isMobile
                             ? constraints.maxWidth * 0.9
                             : 400,
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.8),
                       borderRadius: BorderRadius.circular(10),
@@ -60,26 +60,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           controller: conUser,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.person),
                             labelText: 'Usuario',
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         TextFormField(
                           keyboardType: TextInputType.text,
                           obscureText: true,
                           controller: conPassword,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.password),
                             labelText: 'Contraseña',
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue[200],
-                            minimumSize: Size(double.infinity, 50),
+                            minimumSize: const Size(double.infinity, 50),
                           ),
                           onPressed: () {
                             setState(() {});
@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     });
                           },
-                          child: Text('Validar usuario'),
+                          child: const Text('Validar usuario'),
                         ),
                       ],
                     ),

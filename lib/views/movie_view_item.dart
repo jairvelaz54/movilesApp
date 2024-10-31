@@ -62,7 +62,7 @@ class _MovieViewItemState extends State<MovieViewItem> {
                       ]
                     );
                   },
-                  icon: Icon(Icons.edit)),
+                  icon: const Icon(Icons.edit)),
               IconButton(
                   onPressed: () {
                     moviesDatabase!
@@ -89,10 +89,10 @@ class _MovieViewItemState extends State<MovieViewItem> {
                       }
                     });
                   },
-                  icon: Icon(Icons.delete)),
+                  icon: const Icon(Icons.delete)),
             ],
           ),
-          Divider(),
+          const Divider(),
           Text(widget.moviesDAO.overview!),
         ],
       ),

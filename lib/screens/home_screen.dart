@@ -46,9 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context) {
           switch (index) {
             case 1:
-              return ProfileScreen();
+              return const ProfileScreen();
             case 2:
-              return LogoutScreen();
+              return const LogoutScreen();
             default:
               return Container();
           }
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: myDrawer(testProvider),
       bottomNavigationBar: ConvexAppBar(
-        items: [
+        items: const [
           TabItem(icon: Icons.home, title: 'Home'),
           TabItem(icon: Icons.person, title: 'Profile'),
           TabItem(icon: Icons.exit_to_app, title: 'Exit'),
@@ -90,12 +90,12 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            currentAccountPicture: CircleAvatar(
+            currentAccountPicture: const CircleAvatar(
               backgroundImage: NetworkImage(
                   "https://th.bing.com/th/id/R.d8f30f8c7f238ac844fd924dab66cc21?rik=%2bkLdjBuwc8kcXw&pid=ImgRaw&r=0"),
             ),
             accountName: Text(testProvider.name),
-            accountEmail: Text('jair@gotchu.page'),
+            accountEmail: const Text('jair@gotchu.page'),
           ),
           ListTile(
             onTap: () => Navigator.pushNamed(context, '/db'),

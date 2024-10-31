@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -14,8 +14,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   XFile? _imageFile;
 
   Future<void> _pickImage(ImageSource source) async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? selectedImage = await _picker.pickImage(source: source);
+    final ImagePicker picker = ImagePicker();
+    final XFile? selectedImage = await picker.pickImage(source: source);
 
     setState(() {
       _imageFile = selectedImage;

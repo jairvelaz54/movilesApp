@@ -14,7 +14,7 @@ class LogoutScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.exit_to_app,
                 color: Colors.redAccent,
                 size: 100,

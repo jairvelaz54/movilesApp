@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pmsn2024b/database/servicio_database.dart';
 
 class NewSalePage extends StatefulWidget {
+  const NewSalePage({super.key});
+
   @override
   _NewSalePageState createState() => _NewSalePageState();
 }
@@ -10,7 +12,7 @@ class _NewSalePageState extends State<NewSalePage> {
   final _formKey = GlobalKey<FormState>();
   String? _nombreCliente;
   DateTime? _fecha;
-  String? _estatus = 'Por cumplir';
+  final String? _estatus = 'Por cumplir';
   int? _categoriaSeleccionada;
   int _cantidad = 1;
   List<Map<String, dynamic>> _categorias = [];
@@ -54,20 +56,20 @@ class _NewSalePageState extends State<NewSalePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Registrar Nueva Venta')),
+      appBar: AppBar(title: const Text('Registrar Nueva Venta')),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Nombre del Cliente'),
+                decoration: const InputDecoration(labelText: 'Nombre del Cliente'),
                 validator: (value) => value!.isEmpty ? 'Por favor ingresa un nombre' : null,
                 onSaved: (value) => _nombreCliente = value,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Fecha'),
+                decoration: const InputDecoration(labelText: 'Fecha'),
                 readOnly: true,
                 controller: _fechaController, // Asigna el controlador aquí
                 onTap: () async {
@@ -87,7 +89,7 @@ class _NewSalePageState extends State<NewSalePage> {
                 validator: (value) => _fecha == null ? 'Selecciona una fecha' : null,
               ),
               DropdownButtonFormField<int>(
-                decoration: InputDecoration(labelText: 'Categoría'),
+                decoration: const InputDecoration(labelText: 'Categoría'),
                 items: _categorias.map((categoria) {
                   return DropdownMenuItem<int>(
                     value: categoria['id'],
@@ -103,7 +105,7 @@ class _NewSalePageState extends State<NewSalePage> {
                 validator: (value) => value == null ? 'Selecciona una categoría' : null,
               ),
               DropdownButtonFormField<Map<String, dynamic>>(
-                decoration: InputDecoration(labelText: 'Bienes'),
+                decoration: const InputDecoration(labelText: 'Bienes'),
                 items: _bienes.map((bien) {
                   return DropdownMenuItem<Map<String, dynamic>>(
                     value: bien,
@@ -116,15 +118,15 @@ class _NewSalePageState extends State<NewSalePage> {
                 validator: (value) => value == null ? 'Selecciona un bien' : null,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Cantidad'),
+                decoration: const InputDecoration(labelText: 'Cantidad'),
                 keyboardType: TextInputType.number,
                 initialValue: _cantidad.toString(),
                 onChanged: (value) => _cantidad = int.tryParse(value) ?? 1,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _registerSale,
-                child: Text('Registrar Venta'),
+                child: const Text('Registrar Venta'),
               ),
             ],
           ),

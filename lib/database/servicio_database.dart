@@ -96,25 +96,25 @@ class DBHelper {
     'estatus': 'Por cumplir',
     'categoriaId': 1,
     'total': 500.0,
-    'recordatorioFecha': DateTime.now().subtract(Duration(days: 2)).toIso8601String(),
+    'recordatorioFecha': DateTime.now().subtract(const Duration(days: 2)).toIso8601String(),
   });
 
   await db.insert('ventasServicios', {
     'nombreCliente': 'Cliente B',
-    'fecha': DateTime.now().subtract(Duration(days: 1)).toIso8601String(),
+    'fecha': DateTime.now().subtract(const Duration(days: 1)).toIso8601String(),
     'estatus': 'Cancelado',
     'categoriaId': 2,
     'total': 40.0,
-    'recordatorioFecha': DateTime.now().subtract(Duration(days: 3)).toIso8601String(),
+    'recordatorioFecha': DateTime.now().subtract(const Duration(days: 3)).toIso8601String(),
   });
 
   await db.insert('ventasServicios', {
     'nombreCliente': 'Cliente C',
-    'fecha': DateTime.now().subtract(Duration(days: 2)).toIso8601String(),
+    'fecha': DateTime.now().subtract(const Duration(days: 2)).toIso8601String(),
     'estatus': 'Completado',
     'categoriaId': 3,
     'total': 10.0,
-    'recordatorioFecha': DateTime.now().subtract(Duration(days: 4)).toIso8601String(),
+    'recordatorioFecha': DateTime.now().subtract(const Duration(days: 4)).toIso8601String(),
   });
 }
 
@@ -134,7 +134,7 @@ Future<List<Map<String, dynamic>>> getAllBienes() async {
       'estatus': estatus,
       'categoriaId': categoriaId,
       'total': total,
-      'recordatorioFecha': fecha.subtract(Duration(days: 2)).toIso8601String(),
+      'recordatorioFecha': fecha.subtract(const Duration(days: 2)).toIso8601String(),
     });
   }
 

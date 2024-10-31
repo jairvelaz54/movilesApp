@@ -4,12 +4,14 @@ import 'package:pmsn2024b/screens/historyPage_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends StatefulWidget {
+  const CalendarPage({super.key});
+
   @override
   _CalendarPageState createState() => _CalendarPageState();
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  Map<DateTime, List<Map<String, String>>> _events = {};
+  final Map<DateTime, List<Map<String, String>>> _events = {};
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   int _totalVentas = 0;
@@ -82,22 +84,22 @@ class _CalendarPageState extends State<CalendarPage> {
   title: Row(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
-      Expanded(
+      const Expanded(
         child: Text('Calendario de Ventas/Servicios'),
       ),
       Row(
         children: [
           IconButton(
-            icon: Icon(Icons.shopping_cart),
+            icon: const Icon(Icons.shopping_cart),
             onPressed: () {
               // Lógica para mostrar todas las ventas
               _showAllVentas(context);
             },
           ),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
           Text(
             '$_totalVentas',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -105,7 +107,7 @@ class _CalendarPageState extends State<CalendarPage> {
   ),
   actions: [
     IconButton(
-      icon: Icon(Icons.history),
+      icon: const Icon(Icons.history),
       onPressed: () {
         Navigator.push(
           context,
@@ -167,16 +169,16 @@ class _CalendarPageState extends State<CalendarPage> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
             return Container(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               height: MediaQuery.of(context).size.height * 0.5,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Eventos del ${date.toLocal().toString().split(' ')[0]}',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   events.isNotEmpty
                       ? Expanded(
                           child: ListView.builder(
@@ -218,7 +220,7 @@ class _CalendarPageState extends State<CalendarPage> {
                             },
                           ),
                         )
-                      : Center(
+                      : const Center(
                           child: Text(
                             'No hay eventos para esta fecha.',
                             style: TextStyle(fontSize: 18, color: Colors.black54),
@@ -226,7 +228,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         ),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text('Cerrar'),
+                    child: const Text('Cerrar'),
                   ),
                 ],
               ),
@@ -245,16 +247,16 @@ class _CalendarPageState extends State<CalendarPage> {
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setModalState) {
           return Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             height: MediaQuery.of(context).size.height * 0.5,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Todas las Ventas',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _totalVentas > 0
                     ? Expanded(
                         child: ListView.builder(
@@ -280,7 +282,7 @@ class _CalendarPageState extends State<CalendarPage> {
                           },
                         ),
                       )
-                    : Center(
+                    : const Center(
                         child: Text(
                           'No hay ventas disponibles.',
                           style: TextStyle(fontSize: 18, color: Colors.black54),
@@ -288,7 +290,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       ),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text('Cerrar'),
+                  child: const Text('Cerrar'),
                 ),
               ],
             ),

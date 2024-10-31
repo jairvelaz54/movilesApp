@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pmsn2024b/database/servicio_database.dart';
 
 class HistoryPage extends StatefulWidget {
+  const HistoryPage({super.key});
+
   @override
   _HistoryPageState createState() => _HistoryPageState();
 }
@@ -26,7 +28,7 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Historial de Ventas/Servicios')),
+      appBar: AppBar(title: const Text('Historial de Ventas/Servicios')),
       body: ListView.builder(
         itemCount: _historial.length,
         itemBuilder: (context, index) {

@@ -67,7 +67,7 @@ class _MovieViewState extends State<MovieView> {
           conRelease.text = formatDate;
           setState(() {});
         }
-      },
+            },
     );
 
     final btnSave = ElevatedButton(
@@ -138,7 +138,7 @@ class _MovieViewState extends State<MovieView> {
     );
 
     return ListView(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       shrinkWrap: true,
       children: [txtNameMovie, txtOverview, txtImgMovie, txtRelease, btnSave],
     );

@@ -6,6 +6,8 @@ import 'package:pmsn2024b/settings/theme_settings.dart';
 import 'package:pmsn2024b/settings/global_values.dart';
 
 class OnboardingScreen extends StatelessWidget {
+  const OnboardingScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return IntroductionScreen(
@@ -21,7 +23,7 @@ class OnboardingScreen extends StatelessWidget {
           title: "Configura el tema",
           bodyWidget: Column(
             children: [
-              Text("Selecciona el tema que prefieras:"),
+              const Text("Selecciona el tema que prefieras:"),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -30,23 +32,23 @@ class OnboardingScreen extends StatelessWidget {
                       GlobalValues.themeMode.value = 0;
                       ThemeSettings.lightTheme(); // Aplica el tema claro
                     },
-                    child: Text("Claro"),
+                    child: const Text("Claro"),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () {
                       GlobalValues.themeMode.value = 1;
                       ThemeSettings.darkTheme(); // Aplica el tema oscuro
                     },
-                    child: Text("Oscuro"),
+                    child: const Text("Oscuro"),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () {
                       GlobalValues.themeMode.value = 2;
                       ThemeSettings.customTheme(); // Aplica el tema oscuro
                     },
-                    child: Text("Naranja"),
+                    child: const Text("Naranja"),
                   ),
                 ],
               ),
@@ -70,15 +72,15 @@ class OnboardingScreen extends StatelessWidget {
               if (statuses[Permission.camera]!.isGranted &&
                   statuses[Permission.location]!.isGranted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("¡Permisos otorgados!")),
+                  const SnackBar(content: Text("¡Permisos otorgados!")),
                 );
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Algunos permisos fueron denegados.")),
+                  const SnackBar(content: Text("Algunos permisos fueron denegados.")),
                 );
               }
             },
-            child: Text("Otorgar permisos"),
+            child: const Text("Otorgar permisos"),
           ),
         ),
       ],

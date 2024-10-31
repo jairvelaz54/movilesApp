@@ -65,7 +65,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                 if(snapshot.hasError){
                   return Center(child: Text(snapshot.error.toString()),);
                 }else{
-                  return Center(child: CircularProgressIndicator(),);
+                  return const Center(child: CircularProgressIndicator(),);
                 }
               }
             }

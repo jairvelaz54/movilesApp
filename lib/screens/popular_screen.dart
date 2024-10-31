@@ -77,7 +77,7 @@ class _PopularScreenState extends State<PopularScreen> {
                 ),
                 Text(popular.title,
                     style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                        const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
               ],
             ),
           ),
