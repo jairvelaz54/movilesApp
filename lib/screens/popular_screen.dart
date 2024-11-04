@@ -54,8 +54,10 @@ class _PopularScreenState extends State<PopularScreen> {
 
   Widget cardPopular(PopularMoviedaoDart popular) {
     return GestureDetector(
-        onTap: () =>
-            Navigator.pushNamed(context, '/detail', arguments: popular),
+      onTap: () =>
+          Navigator.pushNamed(context, '/detail', arguments: popular),
+      child: Hero(
+        tag: 'moviePoster_${popular.id}', // Identificador único para Hero
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Container(
@@ -76,11 +78,15 @@ class _PopularScreenState extends State<PopularScreen> {
                   ),
                 ),
                 Text(popular.title,
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white)),
               ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

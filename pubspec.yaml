@@ -54,8 +54,10 @@ dependencies:
   flutter_local_notifications: ^17.2.3
   badges: ^3.1.2
   firebase_auth: ^5.3.1
-  firebase_core: ^3.6.0
   cloud_firestore: ^5.4.4
+  video_player: ^2.9.2
+  youtube_player_flutter: ^9.1.1
+  flutter_rating_bar: ^4.0.1
 
 
   
