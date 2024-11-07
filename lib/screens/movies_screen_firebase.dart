@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pmsn2024b/firebase/database_movies.dart';
 import 'package:pmsn2024b/models/moviedao.dart';
 import 'package:pmsn2024b/views/movie_view_firebase.dart';
 import 'package:pmsn2024b/views/movie_view_item_firebase.dart';
+import 'package:pmsn2024b/views/new_movie_view_firebase.dart';
 
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
@@ -34,7 +36,7 @@ class _MoviesScreenStateFirebase extends State<MoviesScreenFirebase> {
                 context: context, 
                 pageListBuilder: (context) => [
                   WoltModalSheetPage(
-                    child: MovieViewFirebase()
+                    child: NewMoviewViewFireabase()
                   )
                 ]
               );
@@ -48,13 +50,21 @@ class _MoviesScreenStateFirebase extends State<MoviesScreenFirebase> {
           stream: databaseMovies!.select(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              var movie = snapshot.data;
+              var movie = snapshot.data!.docs;
               return ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
-                 return MovieViewItemFirebase(moviesDAO: MoviesDAO.fromMap({
-                  'idMovie': snapshot.data!.docs[index].id,
-                  'imgMovie': snapshot.data!.docs[index].get('imgMovie') ,'nameMovie': snapshot.data!.docs[index].get('nameMovie') ,'overview': snapshot.data!.docs[index].get('overview') ,'releaseDate': snapshot.data!.docs[index].get('releaseDate')}));
+                  var movieData= movie[index];
+                 return MovieViewItemFirebase(
+                  moviesDAO: MoviesDAO.fromMap({
+                  'idMovie': 0,
+                  'imgMovie': movieData.get('imgMovie') ,
+                  'nameMovie': movieData.get('nameMovie') ,
+                  'overview': movieData.get('overview') ,'releaseDate': movieData.get('releaseDate').toString()
+                  },
+                  ),
+                  Uid: movieData.id
+                  );
                 },
               );
             } else if (snapshot.hasError) {

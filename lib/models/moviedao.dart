@@ -1,21 +1,22 @@
-class MoviesDAO {
+class MoviesDAO{
   int? idMovie;
   String? nameMovie;
   String? overview;
-  //String? idGenre;
+  String? idGenero;
   String? imgMovie;
   String? releaseDate;
-  
-  MoviesDAO({this.idMovie, this.nameMovie, this.overview, /*this.idGenre*/ this.imgMovie, this.releaseDate});
-  factory MoviesDAO.fromMap(Map<String,dynamic> movie){
+
+  MoviesDAO({this.idMovie, this.nameMovie, this.overview, this.idGenero, this.imgMovie, this.releaseDate});
+
+  factory MoviesDAO.fromMap(Map<String, dynamic> movie){
     return MoviesDAO(
-      idMovie: movie['idMovie'],
+      idMovie: 0,
       nameMovie: movie['nameMovie'],
       overview: movie['overview'],
-     // idGenre: movie['idGenre'],
+      idGenero: movie['idGenero'],
       imgMovie: movie['imgMovie'],
       releaseDate: movie['releaseDate']
     );
-   }
-
+  }
+  
 }

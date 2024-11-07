@@ -3,20 +3,19 @@ import 'package:pmsn2024b/database/movies_database.dart';
 import 'package:pmsn2024b/firebase/database_movies.dart';
 import 'package:pmsn2024b/settings/global_values.dart';
 import 'package:pmsn2024b/views/movie_view.dart';
+import 'package:pmsn2024b/views/new_movie_view_firebase.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 import '../models/moviedao.dart';
-
 class MovieViewItemFirebase extends StatefulWidget {
-  MovieViewItemFirebase(
-      {super.key,
-      required this.moviesDAO,
-      });
+  const MovieViewItemFirebase(
+      {super.key, required this.moviesDAO, required this.Uid});
 
-  MoviesDAO moviesDAO;
+  final MoviesDAO moviesDAO;
   
+  final Uid;
   @override
   State<MovieViewItemFirebase> createState() => _MovieViewItemFirebaseState();
 }
@@ -50,25 +49,29 @@ class _MovieViewItemFirebaseState extends State<MovieViewItemFirebase> {
               Expanded(
                 child: ListTile(
                   title: Text(widget.moviesDAO.nameMovie!),
-                  subtitle: Text(widget.moviesDAO.releaseDate!),
+                  subtitle: Text(
+                    widget.moviesDAO.releaseDate != null
+                        ? widget.moviesDAO.releaseDate!
+                        : 'Unknown Date',
+                  ),
                 ),
               ),
               IconButton(
                   onPressed: () {
                     WoltModalSheet.show(
-                      context: context, 
-                      pageListBuilder: (context) => [
-                        WoltModalSheetPage(
-                          child: MovieView(moviesDAO: widget.moviesDAO,)
-                        )
-                      ]
-                    );
+                        context: context,
+                        pageListBuilder: (context) => [
+                              WoltModalSheetPage(
+                                  child: NewMoviewViewFireabase(
+                                moviesDAO: widget.moviesDAO,
+                                uid: widget.Uid,
+                              ))
+                            ]);
                   },
-                  icon: Icon(Icons.edit)),
+                  icon: const Icon(Icons.edit)),
               IconButton(
                   onPressed: () {
-                    moviesDatabase!.eliminar('tblmovies')
-                        .then((value) {
+                    moviesDatabase!.eliminar(widget.Uid).then((value) {
                       if (true) {
                         return QuickAlert.show(
                           context: context,
@@ -88,10 +91,10 @@ class _MovieViewItemFirebaseState extends State<MovieViewItemFirebase> {
                       }
                     });
                   },
-                  icon: Icon(Icons.delete)),
+                  icon: const Icon(Icons.delete)),
             ],
           ),
-          Divider(),
+          const Divider(),
           Text(widget.moviesDAO.overview!),
         ],
       ),
